@@ -56,33 +56,33 @@ public class Playground{
 		}
 	}
 
-	public boolean check(int startX, int startX2, int startY, int startY2, int length) {//checks whether you can place the ship
+	public boolean check(int startX, int startY, int length, int senk) {//checks whether you can place the ship
 		
 		boolean unobstructed = true;
-		for (int i = startX2; i <= startX+length; i++) {
-			if (field[i][startY2] != 0 || field[i][startY+1] != 0) {
-				unobstructed = false;
-				break;
+			for (int i = startX - 1; i <= startX+length; i++) {
+				if (field[i][startY - 1] != 0 || field[i][startY+1] != 0) {
+					unobstructed = false;
+					break;
+				}
 			}
-		}
-		for (int i = startY2+1; i < startY+1; i++) {
-			if (field[startX2][i] != 0 || field[startX+length][i] != 0) {
-				unobstructed = false;
-				break;
+			for (int i = startY - 1+1; i < startY+1; i++) {
+				if (field[startX - 1][i] != 0 || field[startX+length][i] != 0) {
+					unobstructed = false;
+					break;
+				}
 			}
-		}
-		for (int o = 0; o < length; o++, startX++) {
-			if (field[startX][startY] != 0 || field[startX][startY2] != 0 || field[startX][startY+1] != 0) {
-				unobstructed = false;
-				break;
+			for (int o = 0; o < length; o++, startX++) {
+				if (field[startX][startY] != 0 || field[startX][startY - 1] != 0 || field[startX][startY+1] != 0) {
+					unobstructed = false;
+					break;
+				}
 			}
-		}
-		if(startX==0 || startY==0) {
-			unobstructed = false;
-		}
-		if (startX+length==11||startY+length==11) {
-			unobstructed = false;
-		}
+			if(startX==0 || startY==0) {
+				unobstructed = false;
+			}
+			if (startX+length==11||startY+length==11) {
+				unobstructed = false;
+			}
 
 		return unobstructed;
 	}
@@ -105,35 +105,33 @@ public class Playground{
 	public static void shipManual(int startX, int startY, int length, int senk) { //places random ship
 		symbol = 2;    
 		cage = 1;            
-		int startX2 = startX - 1;
-		int startY2 = startY - 1;
 		// Draw the line of symbols and the sides of the rectangle
 				if (senk == 0) {
 					// Draw top and bottom sides of the rectangle
-					for (int i = startX2; i <= startX+length; i++) {
-						field[i][startY2] = cage; 
+					for (int i = startX - 1; i <= startX+length; i++) {
+						field[i][startY - 1] = cage; 
 						field[i][startY+1] = cage;
 					}
 					// Draw left and right sides of the rectangle
-					for (int i = startY2+1; i < startY+1; i++) {
-						field[startX2][i] = cage;
+					for (int i = startY - 1+1; i < startY+1; i++) {
+						field[startX - 1][i] = cage;
 						field[startX+length][i] = cage;
 					}
 				for (int o = 0; o < length; o++, startX++) {
 					field[startX][startY] = symbol;
-					field[startX][startY2] = cage;
+					field[startX][startY - 1] = cage;
 					field[startX][startY+1] = cage;
 				}
 			} else {
 				// Draw left and right sidesof cage
-					for (int i = startX2; i <= startX+1; i++) {
-						field[i][startY2] = cage;//left
+					for (int i = startX - 1; i <= startX+1; i++) {
+						field[i][startY - 1] = cage;//left
 						field[i][startY+length] = cage;
 					}
 				//Draw top and bottom of cage and ship
 				for (int o = 0; o < length; o++, startY++) {
 					field[startX][startY] = symbol;//draw ship
-					field[startX2][startY] = cage;//draw top line
+					field[startX - 1][startY] = cage;//draw top line
 					field[startX+1][startY] = cage;
 				}  
 			}
@@ -142,55 +140,49 @@ public class Playground{
 	public void ship(int length) { //places random ship with defined lenght 
 		symbol = 2;    
 		cage = 1;              
-		//senk = rand.nextInt(2);
-		senk = 0;
+		senk = 1;
 		startX = rand.nextInt(field[0].length - 2 - length) + 1;
 		startY = rand.nextInt(field[0].length - 2 - length) + 1;
-		int startX2 = startX - 1;
-		int startY2 = startY - 1;
+
 		
 		// Draw the line of symbols and the sides of the rectangle
 				if (senk == 0) {
-					while(!check(startX,startX2,startY,startY2,length)){              
+					while(!check(startX,startY,length, senk)){              
 					senk = rand.nextInt(2);// 0 horizontal 1 vertical         
 					startX = rand.nextInt(field[0].length - 2 - length) + 1;
 					startY = rand.nextInt(field[0].length - 2) + 1;
-					startX2 = startX - 1;
-					startY2 = startY - 1;
 				}
 					// Draw top and bottom sides of the rectangle
-					for (int i = startX2; i <= startX+length; i++) {
-						field[i][startY2] = cage; 
+					for (int i = startX - 1; i <= startX+length; i++) {
+						field[i][startY - 1] = cage; 
 						field[i][startY+1] = cage;
 					}
 					// Draw left and right sides of the rectangle
-					for (int i = startY2+1; i < startY+1; i++) {
-						field[startX2][i] = cage;
+					for (int i = startY - 1+1; i < startY+1; i++) {
+						field[startX - 1][i] = cage;
 						field[startX+length][i] = cage;
 					}
 				for (int o = 0; o < length; o++, startX++) {
 					field[startX][startY] = symbol;
-					field[startX][startY2] = cage;
+					field[startX][startY - 1] = cage;
 					field[startX][startY+1] = cage;
 				}
 			} else {
 				if (senk == 1) {
-					while(!check(startX,startX2,startY,startY2,length)){              
+					while(!check(startX,startY,length, senk)){              
 					senk = rand.nextInt(2);// 0 horizontal 1 vertical         
 					startX = rand.nextInt(field[0].length - 2) + 1;
 					startY = rand.nextInt(field[0].length - 2 - length) + 1;
-					startX2 = startX - 1;
-					startY2 = startY - 1;
 				}
 				// Draw left and right sidesof cage
-					for (int i = startX2; i <= startX+1; i++) {
-						field[i][startY2] = cage;//left
+					for (int i = startX - 1; i <= startX+1; i++) {
+						field[i][startY - 1] = cage;//left
 						field[i][startY+length] = cage;
 					}
 				//Draw top and bottom of cage and ship
 				for (int o = 0; o < length; o++, startY++) {
 					field[startX][startY] = symbol;//draw ship
-					field[startX2][startY] = cage;//draw top line
+					field[startX - 1][startY] = cage;//draw top line
 					field[startX+1][startY] = cage;
 				}  
 			}
