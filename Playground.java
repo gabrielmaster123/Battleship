@@ -59,31 +59,63 @@ public class Playground{
 	public boolean check(int startX, int startY, int length, int senk) {//checks whether you can place the ship
 		
 		boolean unobstructed = true;
+		if(senk == 1){
 			for (int i = startX - 1; i <= startX+length; i++) {
-				if (field[i][startY - 1] != 0 || field[i][startY+1] != 0) {
+				if (field[i][startY - 1] != 0 || 
+				field[i][startY+1] != 0) {
 					unobstructed = false;
 					break;
 				}
 			}
-			for (int i = startY - 1+1; i < startY+1; i++) {
-				if (field[startX - 1][i] != 0 || field[startX+length][i] != 0) {
-					unobstructed = false;
-					break;
-				}
+			if (field[startX - 1][startY] != 0 || 
+			field[startX+length][startY] != 0) {
+				unobstructed = false;
 			}
 			for (int o = 0; o < length; o++, startX++) {
-				if (field[startX][startY] != 0 || field[startX][startY - 1] != 0 || field[startX][startY+1] != 0) {
+				if (field[startX][startY] != 0 || 
+				field[startX][startY - 1] != 0 || 
+				field[startX][startY+1] != 0) {
 					unobstructed = false;
 					break;
 				}
 			}
-			if(startX==0 || startY==0) {
+			if(startX==0 ||  
+			startY==0) {
 				unobstructed = false;
 			}
-			if (startX+length==11||startY+length==11) {
+			if (startX+length==11 ||
+			startY+length==11) {
 				unobstructed = false;
 			}
-
+		}else{
+			for (int i = startY - 1; i <= startY+length; i++) {
+				if (field[startX - 1][i] != 0 || 
+				field[startX + 1][i] != 0) {
+					unobstructed = false;
+					break;
+				}
+			}
+			if (field[startX][startY - 1] != 0 || 
+			field[startX][startY+length] != 0) {
+				unobstructed = false;
+			}
+			for (int o = 0; o < length; o++, startX++) {
+				if (field[startX][startY] != 0 || 
+				field[startX - 1][startY] != 0 || 
+				field[startX + 1][startY] != 0) {
+					unobstructed = false;
+					break;
+				}
+			}
+			if(startX==0 || 
+			startY==0) {
+				unobstructed = false;
+			}
+			if (startX+length==11 ||
+			startY+length==11) {
+				unobstructed = false;
+			}
+		}
 		return unobstructed;
 	}
 
@@ -140,13 +172,13 @@ public class Playground{
 	public void ship(int length) { //places random ship with defined lenght 
 		symbol = 2;    
 		cage = 1;              
-		senk = 1;
+		senk = 0;
 		startX = rand.nextInt(field[0].length - 2 - length) + 1;
 		startY = rand.nextInt(field[0].length - 2 - length) + 1;
 
 		
 		// Draw the line of symbols and the sides of the rectangle
-				if (senk == 0) {
+				if (senk == 1) {
 					while(!check(startX,startY,length, senk)){              
 					senk = rand.nextInt(2);// 0 horizontal 1 vertical         
 					startX = rand.nextInt(field[0].length - 2 - length) + 1;
@@ -168,7 +200,7 @@ public class Playground{
 					field[startX][startY+1] = cage;
 				}
 			} else {
-				if (senk == 1) {
+				if (senk == 0) {
 					while(!check(startX,startY,length, senk)){              
 					senk = rand.nextInt(2);// 0 horizontal 1 vertical         
 					startX = rand.nextInt(field[0].length - 2) + 1;
