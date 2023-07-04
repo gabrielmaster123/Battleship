@@ -240,6 +240,7 @@ public class Playground{
 						rr++;
 					}else{
 						System.out.println("Impossible ship placement, please restart program");
+						break;
 					}
 		}
 			if (senk == 1) {
