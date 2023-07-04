@@ -19,6 +19,7 @@ public class Oberflaeche {
     }
 
     public static void generateShips(int size1, int size2, int size3, int size4, int size5, Playground field) {
+        Playground.resetShipCount();
         field.ship(size1);
         field.ship(size2);
         field.ship(size3);

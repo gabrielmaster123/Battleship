@@ -6,8 +6,11 @@ public class Playground{
 	int startX;
 	int startY;
 	private static int[][] field;
+	static int shipCount = 2;
 	Random rand = new Random();
-	
+	static boolean sinked;
+	static boolean unfinished;
+
 	public Playground(int x,int y){
 		field = new int [x][y];
 	}
@@ -119,21 +122,72 @@ public class Playground{
 
 	public static int shoot(int y, int x ) {//shoots and then returns result
 		int result = 3;// 0 = miss 1 = hit 2 = target already shot at 3 = error
-		if(field[x][y]==2){//successful hit
-			field[x][y]=3;
+		if(field[x][y]==2||
+		field[x][y]==4||
+		field[x][y]==6||
+		field[x][y]==8||
+		field[x][y]==10){//successful hit
+			field[x][y]++;//marking as hit
 			result = 1; 
 		}else if(field[x][y]==1||field[x][y]==0){//miss
-			field[x][y]=4;
+			field[x][y]=13;
 			result = 0;
 		}else if(field[x][y]==4){//target already shot at before
 			result = 2;
 		}
+		sink();
 		return result;
 	}
 
+	public static void sink(){
+		for(int i = 2; i <= 10; i+=2){
+			sinked = true;
+			for (int j = 0; j < field.length; j++) {
+				for (int k = 0; k < field[0].length; k++) {
+					if(field[j][k] == i) {
+						sinked = false;
+					}
+				}
+			}
+			if (sinked) {
+				for (int j = 0; j < field.length; j++) {
+					for (int k = 0; k < field[0].length; k++) {
+						if (field[j][k] == i + 1) {
+							field[j][k] = 12;
+						}
+					}
+				}
+			}
+		}
+		unfinished = false;
+		for (int j = 0; j < field.length; j++) {
+			for (int k = 0; k < field[0].length; k++) {
+				if (
+				field[j][k] == 2 ||
+				field[j][k] == 4 ||
+				field[j][k] == 6 ||
+				field[j][k] == 8 ||
+				field[j][k] == 10){
+					unfinished = true;
+				}
+			}
+		}
+		if(!unfinished){
+			for (int i = 0; i < field.length; i++) {
+				for (int j = 0; j < field[0].length; j++) {
+					field[i][j] = 14;
+				}
+			}
+		}
+
+	}
+
+	public static void resetShipCount(){
+		shipCount = 2;
+	}
 
 	public static void shipManual(int startX, int startY, int length, int senk) { //places random ship
-		symbol = 2;    
+		symbol = shipCount;    
 		cage = 1;            
 		// Draw the line of symbols and the sides of the rectangle
 				if (senk == 0) {
@@ -165,21 +219,24 @@ public class Playground{
 					field[startX+1][startY] = cage;
 				}  
 			}
+			
 	}
 
 	public void ship(int length) { //places random ship with defined lenght 
-		symbol = 2;    
+		symbol = shipCount;    
 		cage = 1;              
 		senk = rand.nextInt(2);
 		startX = rand.nextInt(field[0].length - 2 - length) + 1;
 		startY = rand.nextInt(field[0].length - 2 - length) + 1;
-
+		int rr = 0;
 		
 		// Draw the line of symbols and the sides of the rectangle
 		while(!check(startX,startY,length, senk)){              
 					senk = rand.nextInt(2);// 0 horizontal 1 vertical         
 					startX = rand.nextInt(field[0].length - 2 - length) + 1;
 					startY = rand.nextInt(field[0].length - 2) + 1;
+					System.out.println("reroll" + rr);
+					rr++;
 		}
 			if (senk == 1) {
 				// Draw top and bottom sides of the rectangle
@@ -211,9 +268,7 @@ public class Playground{
 					field[startX+1][startY] = cage;
 				}  
 			}
-		
-
-
 		}
+		shipCount = shipCount + 2;
 	}
 }
