@@ -235,8 +235,12 @@ public class Playground{
 					senk = rand.nextInt(2);// 0 horizontal 1 vertical         
 					startX = rand.nextInt(field[0].length - 2 - length) + 1;
 					startY = rand.nextInt(field[0].length - 2) + 1;
-					System.out.println("reroll" + rr);
-					rr++;
+					if(rr<10000){
+						System.out.println("reroll" + rr);
+						rr++;
+					}else{
+						System.out.println("Impossible ship placement, please restart program");
+					}
 		}
 			if (senk == 1) {
 				// Draw top and bottom sides of the rectangle
