@@ -52,7 +52,9 @@ public class GUI extends JPanel {
                             g.setColor(Color.RED);
                             g.fillRect(o*boxSize, i*boxSize, boxSize, boxSize);
                             break;
-                        default:
+                        case 5:
+                            g.setColor(Color.ORANGE);
+                            g.fillRect(o*boxSize, i*boxSize, boxSize, boxSize);
                             break;
                     }
                 }
