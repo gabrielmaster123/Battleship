@@ -1,10 +1,7 @@
 import javax.swing.*;
 import java.awt.event.MouseEvent;
-import java.awt.image.*;
-import java.io.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
-import javax.imageio.*;
 
 
 public class GUI extends JPanel {
@@ -42,7 +39,6 @@ public class GUI extends JPanel {
             try {
                 win = new ImageIcon("win.png").getImage();
             } catch (Exception e) {
-                // TODO: handle exception
             }
             for (int o = 1; o < 11; o++){
                 for (int i = 1; i < 11; i++) {
