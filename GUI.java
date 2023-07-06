@@ -9,8 +9,8 @@ public class GUI extends JPanel {
     final int sqrMnt = 12;
     public GUI() {
         setLayout(new BorderLayout()); // Set BorderLayout as the layout manager
-        add(new RedBox(), BorderLayout.CENTER); // Add the red box to the center of the panel
-        generateShips(5,4,3,3,2,sf);
+        add(new RedBox(), BorderLayout.CENTER);
+        sf.setzeAlleSchiffe();
         sf.print();
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent me) {
@@ -23,14 +23,7 @@ public class GUI extends JPanel {
         } );
     }
     
-    public void generateShips(int size1, int size2, int size3, int size4, int size5, Playground field) {
-        sf.resetShipCount();
-        field.ship(size1);
-        field.ship(size2);
-        field.ship(size3);
-        field.ship(size4);
-        field.ship(size5);
-    }
+    
     
 
     private class RedBox extends JComponent {
@@ -52,7 +45,7 @@ public class GUI extends JPanel {
             }
             for (int o = 1; o < 11; o++){
                 for (int i = 1; i < 11; i++) {
-                    switch (sf.getElementAt(o,i)) {
+                    switch (sf.getElementAnStelle(o,i)) {
                         case 0:
                         case 1:
                         case 2:

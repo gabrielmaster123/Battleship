@@ -16,9 +16,17 @@ public class Playground{
 	int TREFFER = 2; 
 	int WASSERSCHUSS = 4;
 	int WDH_SCHUSS = 5;
+	int MAX_LAENGE = 5;
 
 	public Playground(int x,int y){
 		field = new int [x][y];
+	}
+
+	public boolean isBeendet(){
+		if(field[0][0]==14){
+			return true;
+		}
+		return false;
 	}
 
 	public int[][] getPlayground(){
@@ -53,12 +61,11 @@ public class Playground{
 		System.out.println("========================================");
 	}
 		
-	public int getElementAt(int x, int y){//zeigt den wert einer position des feldes
+	public int getElementAnStelle(int x, int y){//zeigt den wert einer position des feldes
 		return field[y][x];
 	}
-
 	public int getPublicElementAt(int x, int y){	
-		switch (getElementAt(x,y)) {
+		switch (getElementAnStelle(x,y)) {
 			case 0:
 			case 1:
 			case 2:
@@ -88,6 +95,31 @@ public class Playground{
 				field[i][o] = 0;
 			}
 		}
+	}
+
+	public void setzeAlleSchiffe() {
+        resetShipCount();
+        ship(5);
+        ship(4);
+        ship(3);
+        ship(3);
+        ship(2);
+    }
+
+	public int getAnzahlSchiffe(){
+		int anzahl = 0;
+		for (int i = 0; i < field.length; i++) {
+			for (int j = 0; j < field[0].length; j++) {
+				if(field[i][j]==2||
+				field[i][j]==4||
+				field[i][j]==6||
+				field[i][j]==8||
+				field[i][j]==10){
+					anzahl++;
+				}
+			}
+		}
+		return anzahl;
 	}
 
 	public boolean check(int startX, int startY, int length, boolean senk) {//checks whether you can place the ship
