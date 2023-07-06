@@ -7,24 +7,11 @@ public class Oberflaeche {
         mFrame.setResizable(true);
         GUI mGUI = new GUI();
         
-        mFrame.setContentPane(mGUI);
-        
-        //generate the playground and the ships in the array 
-        Playground  sf = new Playground(12, 12);
-        generateShips(5,4,3,3,2,sf);
-        Playground.print();
-                
+        mFrame.setContentPane(mGUI);                
         mFrame.setVisible(true);
         
     }
 
-    public static void generateShips(int size1, int size2, int size3, int size4, int size5, Playground field) {
-        Playground.resetShipCount();
-        field.ship(size1);
-        field.ship(size2);
-        field.ship(size3);
-        field.ship(size4);
-        field.ship(size5);
-      }
+    
     
 }
