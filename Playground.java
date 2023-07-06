@@ -47,10 +47,35 @@ public class Playground{
 		System.out.println("========================================");
 	}
 		
-	public static int getElementAt(int y, int x){//zeigt den wert einer position des feldes
-		return field[x][y];
+	public static int getElementAt(int x, int y){//zeigt den wert einer position des feldes
+		return field[y][x];
 	}
-	
+
+	public static int getPublicElementAt(int x, int y){	
+		switch (getElementAt(x,y)) {
+			case 0:
+			case 1:
+			case 2:
+			case 4:
+			case 6:
+			case 8:
+			case 10:	
+				return 1; //unhit water
+			case 3:
+			case 5:
+			case 7:
+			case 9:
+			case 11:
+				return 2; //known ship
+			case 12:
+				return 3; //hit water
+			case 14:
+			    return 4; //sunken ship
+			default:	
+			    return 5; //error
+                
+		}
+	}
 	public void reset() {//setzt das feld zurueck
 		for(int i = 0; i<field.length;i++){
 			for(int o = 0; o<field[0].length;o++){
@@ -132,7 +157,7 @@ public class Playground{
 		}else if(field[x][y]==1||field[x][y]==0){//miss
 			field[x][y]=13;
 			result = 0;
-		}else if(field[x][y]==4){//target already shot at before
+		}else if(field[x][y]==13){//target already shot at before
 			result = 2;
 		}
 		sink();

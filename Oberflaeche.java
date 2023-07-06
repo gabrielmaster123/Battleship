@@ -4,7 +4,7 @@ public class Oberflaeche {
         JFrame mFrame = new JFrame();
         mFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mFrame.setSize(615,639);//more pixels to adjust for the title bar
-        mFrame.setResizable(false);
+        mFrame.setResizable(true);
         GUI mGUI = new GUI();
         
         mFrame.setContentPane(mGUI);
