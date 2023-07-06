@@ -5,22 +5,32 @@ import java.awt.event.MouseAdapter;
 
 
 public class GUI extends JPanel {
-    
+    Playground  sf = new Playground(12, 12);
     final int sqrMnt = 12;
     public GUI() {
         setLayout(new BorderLayout()); // Set BorderLayout as the layout manager
         add(new RedBox(), BorderLayout.CENTER); // Add the red box to the center of the panel
+        generateShips(5,4,3,3,2,sf);
+        sf.print();
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent me) {
             int mouseX = me.getX();
             int mouseY = me.getY();
             int windowWidth = me.getComponent().getWidth();
             int windowHeight = me.getComponent().getHeight();
-                boxPressed(mouseX, mouseY, windowWidth, windowHeight);
+            boxPressed(mouseX, mouseY, windowWidth, windowHeight);
         }
         } );
     }
-
+    
+    public void generateShips(int size1, int size2, int size3, int size4, int size5, Playground field) {
+        sf.resetShipCount();
+        field.ship(size1);
+        field.ship(size2);
+        field.ship(size3);
+        field.ship(size4);
+        field.ship(size5);
+    }
     
 
     private class RedBox extends JComponent {
@@ -42,7 +52,7 @@ public class GUI extends JPanel {
             }
             for (int o = 1; o < 11; o++){
                 for (int i = 1; i < 11; i++) {
-                    switch (Playground.getElementAt(o,i)) {
+                    switch (sf.getElementAt(o,i)) {
                         case 0:
                         case 1:
                         case 2:
@@ -98,8 +108,8 @@ public class GUI extends JPanel {
         int boxY = mouseY / boxHeight;
         
         System.out.println("Box pressed at: (" + boxX + ", " + boxY + ")");
-        Playground.shoot(boxX,boxY);
+        sf.shoot(boxX,boxY);
         repaint();
-        Playground.print();
+        sf.print();
     }
 }

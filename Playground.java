@@ -1,15 +1,21 @@
+import java.awt.Point;
 import java.util.*;
 public class Playground{
 	boolean senk;
-	static int symbol;  
-    static int cage;                           
+	int symbol;  
+    int cage;                           
 	int startX;
 	int startY;
-	private static int[][] field;
-	static int shipCount = 2;
+	private  int[][] field;
+	int shipCount = 2;
 	Random rand = new Random();
-	static boolean sinked;
-	static boolean unfinished;
+	boolean sinked;
+	boolean unfinished;
+	int WASSER = 0;
+	int SCHIFF = 1;
+	int TREFFER = 2; 
+	int WASSERSCHUSS = 4;
+	int WDH_SCHUSS = 5;
 
 	public Playground(int x,int y){
 		field = new int [x][y];
@@ -35,7 +41,7 @@ public class Playground{
 	}
 
 
-	public static void print(){//druckt das feld in die konsole
+	public void print(){//druckt das feld in die konsole
 		System.out.print("========================================");
 		System.out.println();
 		for(int i=0;i<field.length;i++){
@@ -47,11 +53,11 @@ public class Playground{
 		System.out.println("========================================");
 	}
 		
-	public static int getElementAt(int x, int y){//zeigt den wert einer position des feldes
+	public int getElementAt(int x, int y){//zeigt den wert einer position des feldes
 		return field[y][x];
 	}
 
-	public static int getPublicElementAt(int x, int y){	
+	public int getPublicElementAt(int x, int y){	
 		switch (getElementAt(x,y)) {
 			case 0:
 			case 1:
@@ -144,8 +150,10 @@ public class Playground{
 		}
 		return unobstructed;
 	}
-
-	public static int shoot(int y, int x ) {//shoots and then returns result
+	public int schuss (Point p){
+		return shoot(p.x, p.y);
+	}
+	public int shoot(int y, int x ) {//shoots and then returns result
 		int result = 3;// 0 = miss 1 = hit 2 = target already shot at 3 = error
 		if(field[x][y]==2||
 		field[x][y]==4||
@@ -153,18 +161,21 @@ public class Playground{
 		field[x][y]==8||
 		field[x][y]==10){//successful hit
 			field[x][y]++;//marking as hit
-			result = 1; 
+			result = 2; 
 		}else if(field[x][y]==1||field[x][y]==0){//miss
 			field[x][y]=13;
-			result = 0;
+			result = 4;
 		}else if(field[x][y]==13){//target already shot at before
-			result = 2;
+			result = 5;
 		}
 		sink();
+		if(field[x][y] == 12){
+			result = 3;
+		}
 		return result;
 	}
 
-	public static void sink(){
+	public void sink(){
 		for(int i = 2; i <= 10; i+=2){
 			sinked = true;
 			for (int j = 0; j < field.length; j++) {
@@ -207,7 +218,7 @@ public class Playground{
 
 	}
 
-	public static void resetShipCount(){
+	public void resetShipCount(){
 		shipCount = 2;
 	}
 	public void ship(int length) { //places random ship with defined lenght 
@@ -215,15 +226,9 @@ public class Playground{
 		
 		// Draw the line of symbols and the sides of the rectangle
 		do{              
-			// if(senk){
 				senk = rand.nextBoolean();         
 				startX = rand.nextInt(field[0].length - 2) + 1;
 				startY = rand.nextInt(field[0].length - 2) + 1;
-			// }else{
-				// senk = rand.nextBoolean();         
-				// startX = rand.nextInt(field[0].length - 2) + 1;
-				// startY = rand.nextInt(field[0].length - 2) + 1;
-			// }
 		}while(!check(startX,startY,length, senk));
 
 			if (senk) {
